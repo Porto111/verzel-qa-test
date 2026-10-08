@@ -16,7 +16,7 @@ jobs:
           node-version: lts/*
           cache: npm
       # Após o 1º `npm install` local, versione o package-lock.json e troque por `npm ci`.
-      - run: npm install
+      - run: npm ci
       - run: npm run typecheck
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
