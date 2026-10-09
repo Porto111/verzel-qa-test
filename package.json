@@ -1,6 +1,6 @@
 {
   "name": "verzel-store-qa-test",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "description": "Teste técnico QA Júnior – Verzel Store (VZS-142): Playwright + TypeScript com Page Object Model",
   "engines": {

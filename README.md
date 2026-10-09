@@ -10,7 +10,7 @@ bugs, evidências e automação com **Playwright + TypeScript** organizada em **
 | Matriz de cenários + resultados + sessões exploratórias | `docs/CENARIOS.xlsx` (e `docs/CENARIOS.md`) |
 | Roteiro de execução manual: exploratórios UI/API em Gherkin, 1 cartão por evidência (PPT) | `docs/Execucao-Manual-Verzel-Store.pptx` |
 | Bugs | `docs/BUGS.md` |
-| Evidências da execução | `docs/EVIDENCIAS.md` e `docs/evidencias/screenshots/` |
+| Evidências da execução | `/verzel-qa-test/test-results` e `docs/evidencias/screenshots/` |
 | Ambiguidades e interpretações | `docs/AMBIGUIDADES.md` |
 | Roteiro de execução da API (curl) | `docs/EXECUCAO_API.md` |
 | Arquitetura da automação (POM) | `docs/ARQUITETURA.md` |
@@ -41,7 +41,7 @@ npm test                # API + UI
 npm run test:api        # só API
 npm run test:ui         # só UI
 npm run test:smoke      # testes marcados com @smoke
-npm run test:evidencias # UI com screenshot de todos os testes (para docs/EVIDENCIAS.md)
+npm run test:evidencias # UI com screenshot de todos os testes (para /verzel-qa-test/test-results)
 npm run report          # abre o relatório HTML
 npm run typecheck && npm run lint
 
