@@ -1,0 +1,69 @@
+meta {
+  name: CT-01 | BEMVINDO10 aplica 10% (P002x1 + P004x2)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P002",
+        "quantidade": 1
+      },
+      {
+        "produtoId": "P004",
+        "quantidade": 2
+      }
+    ],
+    "cupom": "BEMVINDO10"
+  }
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-01 | status 200", () => { expect(res.getStatus()).to.equal(200); });
+  test("CT-01 | corpo é JSON", () => { expect(b, 'corpo não é JSON').to.be.an('object'); });
+  test("CT-01 | subtotal = 239.7", () => { expect(b.subtotal).to.eql(239.7); });
+  test("CT-01 | desconto = 23.97", () => { expect(b.desconto).to.eql(23.97); });
+  test("CT-01 | frete = 0", () => { expect(b.frete).to.eql(0); });
+  test("CT-01 | freteGratis = true", () => { expect(b.freteGratis).to.eql(true); });
+  test("CT-01 | valorFaltanteFreteGratis = 0", () => { expect(b.valorFaltanteFreteGratis).to.eql(0); });
+  test("CT-01 | total = 215.73", () => { expect(b.total).to.eql(215.73); });
+  test("CT-01 | cupom.aplicado = true", () => { expect(b.cupom.aplicado).to.eql(true); });
+}
+
+docs {
+  ## CT-01 | BEMVINDO10 aplica 10% (P002x1 + P004x2)
+
+  **Regra:** CA01  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 200
+  - corpo é JSON
+  - subtotal = 239.7
+  - desconto = 23.97
+  - frete = 0
+  - freteGratis = true
+  - valorFaltanteFreteGratis = 0
+  - total = 215.73
+  - cupom.aplicado = true
+
+}
+

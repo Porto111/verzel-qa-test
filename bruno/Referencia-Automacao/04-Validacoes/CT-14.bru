@@ -1,0 +1,52 @@
+meta {
+  name: CT-14 | 6 unidades excede o máximo (CA10)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P004",
+        "quantidade": 6
+      }
+    ]
+  }
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-14 | status 422", () => { expect(res.getStatus()).to.equal(422); });
+  test("CT-14 | erro.codigo = QUANTIDADE_MAXIMA_EXCEDIDA", () => { expect(b, 'corpo não é JSON').to.be.an('object'); expect(b.erro.codigo).to.eql("QUANTIDADE_MAXIMA_EXCEDIDA"); });
+  test("CT-14 | erro.mensagem presente", () => { expect(b.erro.mensagem).to.be.a('string').and.not.empty; });
+}
+
+docs {
+  ## CT-14 | 6 unidades excede o máximo (CA10)
+
+  **Regra:** CA10  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 422
+  - erro.codigo = QUANTIDADE_MAXIMA_EXCEDIDA
+  - erro.mensagem presente
+
+}
+

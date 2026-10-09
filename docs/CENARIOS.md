@@ -2,7 +2,7 @@
 
 Legenda de status: ✅ Passou · ❌ Falhou (ver BUG) · ⏳ Pendente de execução.
 Os resultados esperados vêm da documentação da entrega. Preencher "Obtido", "Status" e "Evidência" ao executar.
-Camada: **API** (Postman/Bruno/Playwright) · **UI** (manual).
+Camada: **API** (Bruno/Playwright) · **UI** (manual).
 
 | ID | Regra | Cenário | Camada | Esperado | Obtido | Status | Evidência | Bug |
 |----|-------|---------|--------|----------|--------|--------|-----------|-----|

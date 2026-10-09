@@ -1,4 +1,4 @@
-# Roteiro de execução via API (curl – pode ser replicado no Postman/Bruno)
+# Roteiro de execução via API (curl – pode ser replicado no Bruno)
 
 ```bash
 BASE=https://verzel-store.qa-test-verzel-store.workers.dev

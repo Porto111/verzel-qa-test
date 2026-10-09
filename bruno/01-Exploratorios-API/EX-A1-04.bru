@@ -1,0 +1,59 @@
+meta {
+  name: EX-A1-04 | Cupom com tipos inválidos no cálculo: valor=true (booleano)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P005",
+        "quantidade": 1
+      }
+    ],
+    "cupom": true
+  }
+}
+
+tests {
+  test("não retorna erro 5xx", function () {
+    expect(res.getStatus()).to.be.below(500);
+  });
+  test("resposta é JSON", function () {
+    expect(typeof res.getBody()).to.equal("object");
+  });
+}
+
+docs {
+  ## EX-A1-04 · Cupom com tipos inválidos no cálculo
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 4 de 4:** valor=true (booleano)
+
+  ### Gherkin
+  ```gherkin
+  Dado que envio POST /api/carrinho/calcular com 1× P005
+  Quando o campo "cupom" é true (booleano)
+  Então a API não responde com erro 5xx
+  E registro o status e o corpo da resposta
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A1-04.png`.
+
+}
+

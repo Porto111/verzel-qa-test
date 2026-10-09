@@ -1,13 +1,4 @@
-type APIRequestContext = {
-  get: (url: string, options?: Record<string, unknown>) => Promise<APIResponse>;
-  post: (url: string, options?: Record<string, unknown>) => Promise<APIResponse>;
-};
-
-type APIResponse = {
-  status: () => number;
-  text: () => Promise<string>;
-};
-
+import type { APIRequestContext, APIResponse } from '@playwright/test';
 import type {
   ApiResposta,
   CalculoResponse,

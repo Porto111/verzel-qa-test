@@ -3,7 +3,9 @@
   "version": "2.0.0",
   "private": true,
   "description": "Teste técnico QA Júnior – Verzel Store (VZS-142): Playwright + TypeScript com Page Object Model",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test": "playwright test",
     "test:api": "playwright test --project=api",
@@ -14,7 +16,10 @@
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "bruno:exploratorio": "mkdir -p reports/bruno && TS=$(date +%Y%m%d-%H%M%S) && cd bruno && bru run 01-Exploratorios-API --env \"Verzel Store\" --reporter-html ../reports/bruno/exploratorio-api-$TS.html --reporter-json ../reports/bruno/exploratorio-api-$TS.json",
+    "bruno:referencia": "mkdir -p reports/bruno && TS=$(date +%Y%m%d-%H%M%S) && cd bruno && bru run Referencia-Automacao --env \"Verzel Store\" --reporter-html ../reports/bruno/referencia-$TS.html --reporter-json ../reports/bruno/referencia-$TS.json",
+    "bruno:completo": "mkdir -p reports/bruno && TS=$(date +%Y%m%d-%H%M%S) && cd bruno && bru run --env \"Verzel Store\" --reporter-html ../reports/bruno/completo-$TS.html --reporter-json ../reports/bruno/completo-$TS.json"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",
@@ -23,6 +28,7 @@
     "eslint-plugin-playwright": "^2.0.0",
     "prettier": "^3.3.0",
     "typescript": "^5.6.0",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "@usebruno/cli": "^2.0.0"
   }
 }

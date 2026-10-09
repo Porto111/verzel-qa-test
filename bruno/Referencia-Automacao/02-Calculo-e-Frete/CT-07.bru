@@ -1,0 +1,62 @@
+meta {
+  name: CT-07 | Subtotal exatamente R$ 200,00 tem frete grátis (P005x2)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P005",
+        "quantidade": 2
+      }
+    ]
+  }
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-07 | status 200", () => { expect(res.getStatus()).to.equal(200); });
+  test("CT-07 | corpo é JSON", () => { expect(b, 'corpo não é JSON').to.be.an('object'); });
+  test("CT-07 | subtotal = 200", () => { expect(b.subtotal).to.eql(200); });
+  test("CT-07 | desconto = 0", () => { expect(b.desconto).to.eql(0); });
+  test("CT-07 | frete = 0", () => { expect(b.frete).to.eql(0); });
+  test("CT-07 | freteGratis = true", () => { expect(b.freteGratis).to.eql(true); });
+  test("CT-07 | valorFaltanteFreteGratis = 0", () => { expect(b.valorFaltanteFreteGratis).to.eql(0); });
+  test("CT-07 | total = 200", () => { expect(b.total).to.eql(200); });
+}
+
+docs {
+  ## CT-07 | Subtotal exatamente R$ 200,00 tem frete grátis (P005x2)
+
+  **Regra:** CA06 (inclusive)  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 200
+  - corpo é JSON
+  - subtotal = 200
+  - desconto = 0
+  - frete = 0
+  - freteGratis = true
+  - valorFaltanteFreteGratis = 0
+  - total = 200
+
+}
+

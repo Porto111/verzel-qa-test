@@ -1,0 +1,74 @@
+meta {
+  name: EX-A4-02 | Consistência entre endpoints: Pedido igual ao cálculo
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/api/pedidos
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cliente": {
+      "nome": "Maria Silva",
+      "email": "maria@exemplo.com",
+      "cep": "01310-100"
+    },
+    "itens": [
+      {
+        "produtoId": "P002",
+        "quantidade": 1
+      },
+      {
+        "produtoId": "P004",
+        "quantidade": 2
+      }
+    ],
+    "cupom": "BEMVINDO10"
+  }
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+  test("número do pedido no formato VZ-000000", function () {
+    expect(res.getBody().numero).to.match(/^VZ-\d{6}$/);
+  });
+  test("subtotal, desconto, frete e total iguais aos do cálculo", function () {
+    const b = res.getBody();
+    ["subtotal", "desconto", "frete", "total"].forEach(function (k) {
+      expect(String(b[k]), k).to.equal(bru.getVar("fl_" + k));
+    });
+  });
+}
+
+docs {
+  ## EX-A4-02 · Consistência entre endpoints
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 2 de 4:** Pedido igual ao cálculo
+
+  ### Gherkin
+  ```gherkin
+  Dado que calculei o carrinho no passo anterior
+  Quando envio POST /api/pedidos com os mesmos itens e cupom
+  Então recebo 201 com número no formato "VZ-000000"
+  E subtotal, desconto, frete e total são iguais aos do cálculo
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A4-02.png`.
+
+}
+

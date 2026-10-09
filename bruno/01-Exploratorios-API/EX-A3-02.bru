@@ -1,0 +1,63 @@
+meta {
+  name: EX-A3-02 | Pedido com dados do cliente atípicos: variacao=nome só com espaços
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/pedidos
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cliente": {
+      "nome": "   ",
+      "email": "maria@exemplo.com",
+      "cep": "01310-100"
+    },
+    "itens": [
+      {
+        "produtoId": "P005",
+        "quantidade": 1
+      }
+    ]
+  }
+}
+
+tests {
+  test("não retorna erro 5xx", function () {
+    expect(res.getStatus()).to.be.below(500);
+  });
+  test("resposta é JSON", function () {
+    expect(typeof res.getBody()).to.equal("object");
+  });
+}
+
+docs {
+  ## EX-A3-02 · Pedido com dados do cliente atípicos
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 2 de 7:** variacao=nome só com espaços
+
+  ### Gherkin
+  ```gherkin
+  Dado que envio POST /api/pedidos com 1× P005
+  Quando o cliente tem nome só com espaços
+  Então a API não responde com erro 5xx
+  E registro o status, o código de erro e o corpo
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A3-02.png`.
+
+}
+

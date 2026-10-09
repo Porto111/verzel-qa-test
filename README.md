@@ -7,12 +7,14 @@ bugs, evidências e automação com **Playwright + TypeScript** organizada em **
 | Entrega | Local |
 |---|---|
 | Cenários em Gherkin | `features/*.feature` |
-| Matriz de cenários + resultados + sessões exploratórias | `docs/CENARIOS.md` |
+| Matriz de cenários + resultados + sessões exploratórias | `docs/CENARIOS.xlsx` (e `docs/CENARIOS.md`) |
+| Roteiro de execução manual: exploratórios UI/API em Gherkin, 1 cartão por evidência (PPT) | `docs/Execucao-Manual-Verzel-Store.pptx` |
 | Bugs | `docs/BUGS.md` |
 | Evidências da execução | `docs/EVIDENCIAS.md` e `docs/evidencias/screenshots/` |
 | Ambiguidades e interpretações | `docs/AMBIGUIDADES.md` |
 | Roteiro de execução da API (curl) | `docs/EXECUCAO_API.md` |
 | Arquitetura da automação (POM) | `docs/ARQUITETURA.md` |
+| Collection Bruno (exploratórios de API) + relatório Bruno CLI | `bruno/` e `docs/BRUNO.md` |
 | Uso de IA | `docs/USO_DE_IA.md` |
 | Automação | `tests/` (specs) e `src/` (page objects, API client, dados) |
 
@@ -42,6 +44,9 @@ npm run test:smoke      # testes marcados com @smoke
 npm run test:evidencias # UI com screenshot de todos os testes (para docs/EVIDENCIAS.md)
 npm run report          # abre o relatório HTML
 npm run typecheck && npm run lint
+
+# Relatório HTML da execução manual da API (Bruno CLI → reports/bruno/)
+npm run bruno:exploratorio
 ```
 A URL da loja pode ser trocada com `BASE_URL=... npm test` (padrão em `playwright.config.ts`).
 

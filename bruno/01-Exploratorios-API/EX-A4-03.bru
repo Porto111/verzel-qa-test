@@ -1,0 +1,49 @@
+meta {
+  name: EX-A4-03 | Consistência entre endpoints: Consultar preços do catálogo
+  type: http
+  seq: 22
+}
+
+get {
+  url: {{baseUrl}}/api/produtos
+  body: none
+  auth: none
+}
+
+script:post-response {
+  const b = res.getBody();
+  ["P002", "P004"].forEach(function (id) {
+    const p = b.find(function (x) { return x.id === id; });
+    bru.setVar("preco_" + id, String(p.preco));
+  });
+}
+
+tests {
+  test("status 200 e 8 produtos", function () {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody()).to.have.lengthOf(8);
+  });
+}
+
+docs {
+  ## EX-A4-03 · Consistência entre endpoints
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 3 de 4:** Consultar preços do catálogo
+
+  ### Gherkin
+  ```gherkin
+  Dado que preciso dos preços de P002 e P004
+  Quando envio GET /api/produtos
+  Então recebo 200 com os 8 produtos
+  E os preços de P002 e P004 ficam guardados
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A4-03.png`.
+
+}
+

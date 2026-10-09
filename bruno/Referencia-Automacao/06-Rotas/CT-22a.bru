@@ -1,0 +1,37 @@
+meta {
+  name: CT-22a | Rota inexistente
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/nao-existe
+  body: none
+  auth: none
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-22a | status 404", () => { expect(res.getStatus()).to.equal(404); });
+  test("CT-22a | erro.codigo = ROTA_NAO_ENCONTRADA", () => { expect(b, 'corpo não é JSON').to.be.an('object'); expect(b.erro.codigo).to.eql("ROTA_NAO_ENCONTRADA"); });
+  test("CT-22a | erro.mensagem presente", () => { expect(b.erro.mensagem).to.be.a('string').and.not.empty; });
+}
+
+docs {
+  ## CT-22a | Rota inexistente
+
+  **Regra:** Rotas  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 404
+  - erro.codigo = ROTA_NAO_ENCONTRADA
+  - erro.mensagem presente
+
+}
+

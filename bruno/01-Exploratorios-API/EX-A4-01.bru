@@ -1,0 +1,73 @@
+meta {
+  name: EX-A4-01 | Consistência entre endpoints: Calcular e guardar valores
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P002",
+        "quantidade": 1
+      },
+      {
+        "produtoId": "P004",
+        "quantidade": 2
+      }
+    ],
+    "cupom": "BEMVINDO10"
+  }
+}
+
+script:post-response {
+  const b = res.getBody();
+  ["subtotal", "desconto", "frete", "total"].forEach(function (k) { bru.setVar("fl_" + k, String(b[k])); });
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("valores: subtotal 239,70 · desconto 23,97 · frete 0 · total 215,73", function () {
+    const b = res.getBody();
+    expect(b.subtotal).to.equal(239.7);
+    expect(b.desconto).to.equal(23.97);
+    expect(b.frete).to.equal(0);
+    expect(b.total).to.equal(215.73);
+  });
+}
+
+docs {
+  ## EX-A4-01 · Consistência entre endpoints
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 1 de 4:** Calcular e guardar valores
+
+  ### Gherkin
+  ```gherkin
+  Dado que o carrinho é P002×1 + P004×2 com "BEMVINDO10"
+  Quando envio POST /api/carrinho/calcular
+  Então recebo 200 com subtotal 239,70 e desconto 23,97
+  E frete 0 e total 215,73
+  E os valores ficam guardados nas variáveis fl_*
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A4-01.png`.
+
+}
+

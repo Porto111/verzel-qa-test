@@ -1,0 +1,67 @@
+meta {
+  name: CT-05 | Cupom expirado (VERAO2026)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P005",
+        "quantidade": 1
+      }
+    ],
+    "cupom": "VERAO2026"
+  }
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-05 | status 200", () => { expect(res.getStatus()).to.equal(200); });
+  test("CT-05 | corpo é JSON", () => { expect(b, 'corpo não é JSON').to.be.an('object'); });
+  test("CT-05 | subtotal = 100", () => { expect(b.subtotal).to.eql(100); });
+  test("CT-05 | desconto = 0", () => { expect(b.desconto).to.eql(0); });
+  test("CT-05 | frete = 19.9", () => { expect(b.frete).to.eql(19.9); });
+  test("CT-05 | freteGratis = false", () => { expect(b.freteGratis).to.eql(false); });
+  test("CT-05 | valorFaltanteFreteGratis = 100", () => { expect(b.valorFaltanteFreteGratis).to.eql(100); });
+  test("CT-05 | total = 119.9", () => { expect(b.total).to.eql(119.9); });
+  test("CT-05 | cupom.aplicado = false", () => { expect(b.cupom.aplicado).to.eql(false); });
+  test("CT-05 | cupom.mensagem = Cupom expirado.", () => { expect(b.cupom.mensagem).to.eql("Cupom expirado."); });
+}
+
+docs {
+  ## CT-05 | Cupom expirado (VERAO2026)
+
+  **Regra:** CA04  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 200
+  - corpo é JSON
+  - subtotal = 100
+  - desconto = 0
+  - frete = 19.9
+  - freteGratis = false
+  - valorFaltanteFreteGratis = 100
+  - total = 119.9
+  - cupom.aplicado = false
+  - cupom.mensagem = Cupom expirado.
+
+}
+

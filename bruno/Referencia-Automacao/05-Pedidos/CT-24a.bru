@@ -1,0 +1,58 @@
+meta {
+  name: CT-24a | Pedido com cupom inexistente
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/pedidos
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "cliente": {
+      "nome": "Maria Silva",
+      "email": "maria@exemplo.com",
+      "cep": "01310-100"
+    },
+    "itens": [
+      {
+        "produtoId": "P005",
+        "quantidade": 1
+      }
+    ],
+    "cupom": "XPTO99"
+  }
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-24a | status 422", () => { expect(res.getStatus()).to.equal(422); });
+  test("CT-24a | erro.codigo = CUPOM_INVALIDO", () => { expect(b, 'corpo não é JSON').to.be.an('object'); expect(b.erro.codigo).to.eql("CUPOM_INVALIDO"); });
+  test("CT-24a | erro.mensagem presente", () => { expect(b.erro.mensagem).to.be.a('string').and.not.empty; });
+}
+
+docs {
+  ## CT-24a | Pedido com cupom inexistente
+
+  **Regra:** Pedido (cupom)  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 422
+  - erro.codigo = CUPOM_INVALIDO
+  - erro.mensagem presente
+
+}
+

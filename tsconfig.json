@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "types": ["node"],
     "paths": {
       "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],

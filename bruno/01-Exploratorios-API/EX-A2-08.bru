@@ -1,0 +1,51 @@
+meta {
+  name: EX-A2-08 | Corpo do cálculo com campos atípicos: variacao=Content-Type text/plain
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: text
+  auth: none
+}
+
+headers {
+  Content-Type: text/plain
+}
+
+body:text {
+  {"itens": [{"produtoId": "P001", "quantidade": 1}]}
+}
+
+tests {
+  test("não retorna erro 5xx", function () {
+    expect(res.getStatus()).to.be.below(500);
+  });
+  test("resposta é JSON", function () {
+    expect(typeof res.getBody()).to.equal("object");
+  });
+}
+
+docs {
+  ## EX-A2-08 · Corpo do cálculo com campos atípicos
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 8 de 8:** variacao=Content-Type text/plain
+
+  ### Gherkin
+  ```gherkin
+  Dado que envio POST /api/carrinho/calcular
+  Quando o corpo contém Content-Type text/plain
+  Então a API não responde com erro 5xx
+  E registro o status e o corpo da resposta
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A2-08.png`.
+
+}
+

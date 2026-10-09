@@ -1,0 +1,38 @@
+meta {
+  name: CT-20 | GET /api/produtos lista o catálogo
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/produtos
+  body: none
+  auth: none
+}
+
+tests {
+  let b = res.getBody();
+  test("CT-20 | status 200", () => { expect(res.getStatus()).to.equal(200); });
+  test("CT-20 | 8 produtos", () => { expect(b).to.be.an('array').with.lengthOf(8); });
+  const esperado = {"P001": {"nome": "Camiseta Essencial", "categoria": "Vestuário", "descricao": "Algodão penteado e corte reto.", "preco": 59.9}, "P002": {"nome": "Calça Jeans Slim", "categoria": "Vestuário", "descricao": "Jeans com elastano e lavagem escura.", "preco": 139.9}, "P003": {"nome": "Tênis Casual Urbano", "categoria": "Calçados", "descricao": "Solado de borracha e cabedal em lona.", "preco": 189.9}, "P004": {"nome": "Boné Aba Curva", "categoria": "Acessórios", "descricao": "Ajuste traseiro com fivela metálica.", "preco": 49.9}, "P005": {"nome": "Mochila Urbana 20L", "categoria": "Acessórios", "descricao": "Compartimento acolchoado para notebook.", "preco": 100.0}, "P006": {"nome": "Kit 3 Pares de Meias", "categoria": "Vestuário", "descricao": "Cano médio, algodão com reforço no calcanhar.", "preco": 29.9}, "P007": {"nome": "Jaqueta Corta-Vento", "categoria": "Vestuário", "descricao": "Tecido leve e repelente à água.", "preco": 229.9}, "P008": {"nome": "Garrafa Térmica 750ml", "categoria": "Acessórios", "descricao": "Mantém a temperatura por até 12 horas.", "preco": 50.0}};
+  test("CT-20 | cada produto confere nome, categoria, descrição e preço", () => { Object.entries(esperado).forEach(([id, e]) => { const p = b.find(x => x.id === id); expect(p, id + ' ausente').to.be.an('object'); expect(p).to.include(e); }); });
+}
+
+docs {
+  ## CT-20 | GET /api/produtos lista o catálogo
+
+  **Regra:** Catálogo  
+  **Camada:** API – referência (já coberto pela automação Playwright)
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Compare a resposta com o resultado esperado e confira a aba **Tests**.
+  - Use esta requisição para **repetir manualmente** uma falha da automação antes de abrir bug.
+
+  ### Resultado esperado
+  - status 200
+  - 8 produtos
+  - cada produto confere nome, categoria, descrição e preço
+
+}
+

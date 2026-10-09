@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Verzel Store - API (VZS-142)",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

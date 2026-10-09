@@ -1,0 +1,62 @@
+meta {
+  name: EX-A4-04 | Consistência entre endpoints: Subtotal = soma do catálogo
+  type: http
+  seq: 23
+}
+
+post {
+  url: {{baseUrl}}/api/carrinho/calcular
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "itens": [
+      {
+        "produtoId": "P002",
+        "quantidade": 1
+      },
+      {
+        "produtoId": "P004",
+        "quantidade": 2
+      }
+    ]
+  }
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("subtotal = P002×1 + P004×2 (preços do catálogo)", function () {
+    const esperado = Math.round((Number(bru.getVar("preco_P002")) + 2 * Number(bru.getVar("preco_P004"))) * 100) / 100;
+    expect(res.getBody().subtotal).to.equal(esperado);
+  });
+}
+
+docs {
+  ## EX-A4-04 · Consistência entre endpoints
+
+  **Camada:** API (exploratório – execução manual)  
+  **Exemplo 4 de 4:** Subtotal = soma do catálogo
+
+  ### Gherkin
+  ```gherkin
+  Dado que conheço os preços de P002 e P004
+  Quando calculo P002×1 + P004×2 sem cupom
+  Então o subtotal é a soma dos preços do catálogo (239,70)
+  ```
+
+  ### Como executar
+  - Selecione o environment **Verzel Store** e clique em **Send** (Ctrl+Enter).
+  - Leia o status, o tempo e o corpo da resposta e a aba **Tests**.
+  - Registre o comportamento observado em `docs/CENARIOS.xlsx` (aba Exploratórias).
+  - **Evidência:** print com método/URL, corpo da requisição, resposta e aba Tests → `EX-A4-04.png`.
+
+}
+
