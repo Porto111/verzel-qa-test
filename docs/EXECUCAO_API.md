@@ -23,4 +23,4 @@ curl -si -X POST $BASE/api/carrinho/calcular -H 'Content-Type: application/json'
 curl -si -X POST $BASE/api/pedidos -H 'Content-Type: application/json' \
   -d '{"cliente":{"nome":"Maria Silva","email":"maria@exemplo.com","cep":"01310-100"},"itens":[{"produtoId":"P005","quantidade":1}],"cupom":"BEMVINDO10"}'
 ```
-Registrar status, corpo e print/arquivo de cada chamada em `docs/EVIDENCIAS.md`.
+Registrar status, corpo e print/arquivo de cada chamada em `docs/EVIDENCIAS.md` conforme o exemplo.
