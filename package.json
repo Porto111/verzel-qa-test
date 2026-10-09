@@ -1,6 +1,6 @@
 {
   "name": "verzel-store-qa-test",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "private": true,
   "description": "Teste técnico QA Júnior – Verzel Store (VZS-142): Playwright + TypeScript com Page Object Model",
   "engines": {
@@ -12,7 +12,7 @@
     "test:ui": "playwright test --project=ui-chromium",
     "test:smoke": "playwright test --grep @smoke",
     "test:headed": "playwright test --project=ui-chromium --headed",
-    "test:evidencias": "EVIDENCIAS=1 playwright test --project=ui-chromium",
+    "test:evidencias": "EVIDENCIAS=1 playwright test --project=ui-chromium", "test:evidencias:api": "EVIDENCIAS=1 playwright test --project=api", 
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
